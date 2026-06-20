@@ -1,0 +1,53 @@
+version: "2"
+
+run:
+  timeout: 5m
+
+linters:
+  default: none
+
+  enable:
+    - errcheck
+    - govet
+    - revive
+    - gocritic
+    - gocyclo
+    - ineffassign
+    - bodyclose
+    - wsl_v5
+    - varnamelen
+    - staticcheck
+
+  settings:
+    revive:
+      rules:
+        - name: var-naming
+          severity: error
+
+    gocyclo:
+      min-complexity: 15
+
+    wsl_v5:
+      allow-first-in-block: true
+      allow-whole-block: false
+      branch-max-lines: 2
+
+    varnamelen:
+      ignore-names:
+        - i
+        - j
+        - k
+        - w
+        - r
+        - wg
+        - err
+        - ctx
+        - db
+        - tx
+        - ch
+        - mu
+        - id
+
+    staticcheck:
+      checks:
+        - all

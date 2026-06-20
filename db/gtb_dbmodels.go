@@ -1,9 +1,9 @@
-package gtb_db
+package gtbdb
 
 import "time"
 
 type Dsnconfig struct {
-	DbName   string
+	DBName   string
 	Username string
 	Password string
 	Hostname string

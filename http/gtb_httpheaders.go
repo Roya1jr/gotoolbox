@@ -1,4 +1,4 @@
-package gtb_http
+package gtbhttp
 
 // Headers
 const (
@@ -74,7 +74,7 @@ const (
 	HeaderSecWebSocketAccept   = "Sec-WebSocket-Accept"
 )
 
-//Mime types
+// Mime types
 
 const (
 	// Application MIME types

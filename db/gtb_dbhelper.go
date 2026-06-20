@@ -1,14 +1,16 @@
-package gtb_db
+// Package gtbdb contains helper function for database connection
+package gtbdb
 
 import (
 	"database/sql"
 	"fmt"
+	"log"
 )
 
 // CreateDsn securely builds the Data Source Name.
 func (cfg *Dsnconfig) CreateDsn() string {
 	return fmt.Sprintf("%s:%s@%s(%s)/%s",
-		cfg.Username, cfg.Password, cfg.Protocol, cfg.Hostname, cfg.DbName)
+		cfg.Username, cfg.Password, cfg.Protocol, cfg.Hostname, cfg.DBName)
 }
 
 // GetDatabaseClient opens and configures a database client with
@@ -22,8 +24,11 @@ func GetDatabaseClient(dsn string, cfg *Databaseclientconfig) (*sql.DB, error) {
 	client.SetMaxIdleConns(cfg.MaxIdleConns)
 	client.SetConnMaxLifetime(cfg.ConnMaxLifetime)
 
-	if err := client.Ping(); err != nil {
-		client.Close()
+	err = client.Ping()
+	if err != nil {
+		errC := client.Close()
+		log.Println("Failed to close: ", errC)
+
 		return nil, fmt.Errorf("could not ping database: %w", err)
 	}
 
