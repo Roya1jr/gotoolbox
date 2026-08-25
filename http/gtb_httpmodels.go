@@ -13,7 +13,7 @@ type Middleware func(http.Handler) http.Handler
 type Route struct {
 	Method      string
 	Path        string
-	Handler     http.Handler
+	Handler     http.HandlerFunc
 	Middleware  []Middleware
 	SkipLogging bool
 }
