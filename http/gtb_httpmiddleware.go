@@ -2,12 +2,12 @@ package gtbhttp
 
 import (
 	"fmt"
+	"io/fs"
 	"log"
 	"net/http"
 	"slices"
 	"time"
 )
-
 
 func chain(h http.Handler, middleware []Middleware) http.Handler {
 	for _, mdw := range slices.Backward(middleware) {
@@ -44,6 +44,7 @@ func mdwLogging(next http.Handler) http.Handler {
 	})
 }
 
+// Build returns a handker with all routes registered
 func Build(routes []Route) http.Handler {
 	mux := http.NewServeMux()
 
@@ -63,6 +64,25 @@ func Build(routes []Route) http.Handler {
 	}
 
 	return mux
+}
+
+// StaticRoute creates a Route for serving embedded or disk files with optional middleware
+func StaticRoute(prefix string, fsys fs.FS, middlewares ...Middleware) Route {
+	// Ensure prefix ends with "/" so ServeMux matches all subpaths (e.g., "/css/*")
+	if prefix[len(prefix)-1] != '/' {
+		prefix += "/"
+	}
+
+	// Strip the route prefix so http.FileServer gets relative paths
+	fileServer := http.StripPrefix(prefix, http.FileServer(http.FS(fsys)))
+	path := prefix + "..."
+
+	return Route{
+		Method:     http.MethodGet,
+		Path:       path, // "..." captures trailing path in Go 1.22+
+		Handler:    fileServer,
+		Middleware: middlewares,
+	}
 }
 
 // MergeMdw allows merging of multiple middleware into one array
