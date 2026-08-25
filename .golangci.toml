@@ -1,0 +1,53 @@
+version = "2"
+
+[run]
+timeout = "5m"
+
+[linters]
+default = "none"
+enable = [
+  "errcheck",
+  "govet",
+  "revive",
+  "gocritic",
+  "gocyclo",
+  "ineffassign",
+  "bodyclose",
+  "wsl_v5",
+  "varnamelen",
+  "staticcheck",
+]
+
+[linters.settings.revive]
+
+[[linters.settings.revive.rules]]
+name = "var-naming"
+severity = "error"
+
+[linters.settings.gocyclo]
+min-complexity = 15
+
+[linters.settings.wsl_v5]
+allow-first-in-block = true
+allow-whole-block = false
+branch-max-lines = 2
+
+[linters.settings.varnamelen]
+ignore-names = [
+  "i",
+  "j",
+  "k",
+  "w",
+  "r",
+  "wg",
+  "err",
+  "ctx",
+  "db",
+  "tx",
+  "ch",
+  "mu",
+  "id",
+]
+
+[linters.settings.staticcheck]
+checks = ["all"]

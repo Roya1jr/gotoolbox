@@ -15,11 +15,11 @@ package main
 
 import (
  "log"
- "github.com/Roya1jr/gotoolbox/gtb_string"
+ "github.com/Roya1jr/gotoolbox/gtbhttp"
 )
 
 func main() {
- log.Println(gtb_string.AddPre("World", "Hello"))
+ log.Println(gtbhttp.HeaderAuthorization)
 }
 ```
 
