@@ -86,11 +86,11 @@ func StaticRoute(prefix string, fsys fs.FS, middlewares ...Middleware) Route {
 
 	// Strip the route prefix so http.FileServer gets relative paths
 	fileServer := http.StripPrefix(prefix, http.FileServer(http.FS(fsys)))
-	path := prefix + "..."
+	path := prefix + "{path...}"
 
 	return Route{
 		Method:     http.MethodGet,
-		Path:       path, // "..." captures trailing path in Go 1.22+
+		Path:       path, // "{path...}" captures trailing path in Go 1.22+
 		Handler:    fileServer,
 		Middleware: middlewares,
 	}
