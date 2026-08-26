@@ -66,6 +66,16 @@ func Build(routes []Route) http.Handler {
 	return mux
 }
 
+// Helper to create a Route from a plain handler function
+func FuncRoute(method, path string, fn func(http.ResponseWriter, *http.Request), mdw ...Middleware) Route {
+	return Route{
+		Method:     method,
+		Path:       path,
+		Handler:    http.HandlerFunc(fn),
+		Middleware: mdw,
+	}
+}
+
 // StaticRoute creates a Route for serving embedded or disk files with optional middleware
 func StaticRoute(prefix string, fsys fs.FS, middlewares ...Middleware) Route {
 	// Ensure prefix ends with "/" so ServeMux matches all subpaths (e.g., "/css/*")
