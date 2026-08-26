@@ -67,12 +67,13 @@ func Build(routes []Route) http.Handler {
 }
 
 // Helper to create a Route from a plain handler function
-func FuncRoute(method, path string, fn func(http.ResponseWriter, *http.Request), mdw ...Middleware) Route {
+func FuncRoute(method, path string, fn func(http.ResponseWriter, *http.Request), mdw ...Middleware,skip bool) Route {
 	return Route{
 		Method:     method,
 		Path:       path,
 		Handler:    http.HandlerFunc(fn),
 		Middleware: mdw,
+		SkipLogging: skip,
 	}
 }
 
