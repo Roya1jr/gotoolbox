@@ -15,7 +15,7 @@ package main
 
 import (
  "log"
- "github.com/Roya1jr/gotoolbox/gtbhttp"
+ gtbhttp "github.com/Roya1jr/gotoolbox/http"
 )
 
 func main() {
