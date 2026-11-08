@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"io"
 	"log"
+	"mime"
 	"net/http"
 	"net/http/httputil"
 	"sync"
@@ -27,7 +28,12 @@ func DecodeBody(r *http.Response, dst any) error {
 
 	contentType := r.Header.Get(HeaderContentType)
 
-	switch contentType {
+	mediaType, _, err := mime.ParseMediaType(contentType)
+	if err != nil && contentType != "" {
+		return fmt.Errorf("failed to parse Content-Type %q: %w", contentType, err)
+	}
+
+	switch mediaType {
 	case MIMEApplicationJSON:
 		decoder := json.NewDecoder(r.Body)
 		decoder.DisallowUnknownFields()

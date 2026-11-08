@@ -66,7 +66,7 @@ func Build(routes []Route) http.Handler {
 	return mux
 }
 
-// Helper to create a Route from a plain handler function
+// FuncRoute is a helper to create a Route from a plain handler function
 func FuncRoute(method, path string, fn func(http.ResponseWriter, *http.Request), skip bool, mdw []Middleware) Route {
 	return Route{
 		Method:      method,
@@ -123,6 +123,7 @@ func MdwAuth(next http.Handler) http.Handler {
 			http.Error(w, "UnAuthorized", http.StatusUnauthorized)
 			return
 		}
+
 		next.ServeHTTP(w, r)
 	})
 }
