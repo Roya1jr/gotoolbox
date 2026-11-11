@@ -14,10 +14,6 @@ import (
 	"sync"
 )
 
-const (
-	responseDeco = "===================HTTP RESPONSE==================="
-)
-
 // DecodeBody decodes response body (json/xml) into pointed value dst
 func DecodeBody(r *http.Response, dst any) error {
 	defer func() {
@@ -109,10 +105,7 @@ func DumpResponse(res *http.Response) ([]byte, error) {
 
 	dump, err := httputil.DumpResponse(res, true)
 	if err != nil {
-		log.Println("Could not dump response:", err)
-	} else {
-		log.Printf("%s\n%s\n%s\n", responseDeco, string(dump), responseDeco)
+		return nil, err
 	}
-
-	return bodyBytes, nil
+	return dump, nil
 }
